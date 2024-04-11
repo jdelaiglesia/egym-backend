@@ -9,11 +9,15 @@ const ProductSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  description: {
-    type: String,
+  available: {
+    type: Boolean,
+  },
+  deleted: {
+    type: Boolean,
+    default: false,
   },
 });
 
-const Product = mongoose.model("Product", ProductSchema);
+const Product = mongoose.model("product", ProductSchema);
 
 module.exports = Product;

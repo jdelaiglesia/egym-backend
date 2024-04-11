@@ -2,7 +2,8 @@ const { Router } = require("express");
 
 const router = Router();
 
-const helloWorld = require("../controllers/helloWorld");
+const hellowWorld = require("../controllers/helloWorld");
+
 const {
   getProduct,
   createProduct,
@@ -11,8 +12,9 @@ const {
 } = require("../controllers/product");
 
 //! GET
-router.get("/helloworld", helloWorld);
-router.get("/product", getProduct);
+router.get("/helloworld", hellowWorld);
+router.get("/product/:id", getProduct);
+
 
 //! POST
 router.post("/product", createProduct);
