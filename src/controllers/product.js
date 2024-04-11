@@ -1,5 +1,15 @@
 const Product = require("../models/Product");
 
+const getNameProduct = async (req ,res)=>{
+  try {
+    const products = await Product.find({})
+    const filterName = products.filter((p)=>p.name.includes(req.params.name))
+      if(filterName.length>0) return res.status(200).json(filterName)
+      else return res.status(404).json({ message: "Product not found" })
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 
 const getAllProducts = async (req, res)=>{
   try {
@@ -81,4 +91,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getAllProducts,
+  getNameProduct,
 };
