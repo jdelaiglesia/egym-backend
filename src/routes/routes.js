@@ -3,18 +3,19 @@ const { Router } = require("express");
 const router = Router();
 
 const hellowWorld = require("../controllers/helloWorld");
-const getAllProduct = require("../controllers/getAllProducts")
+
 const {
   getProduct,
   createProduct,
   updateProduct,
   deleteProduct,
+  getAllProducts,
 } = require("../controllers/product");
 
 //! GET
 router.get("/helloworld", hellowWorld);
 router.get("/product/:id", getProduct);
-router.get("/products", getAllProduct)
+router.get("/products", getAllProducts)
 
 //! POST
 router.post("/product", createProduct);
