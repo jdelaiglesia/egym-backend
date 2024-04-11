@@ -10,12 +10,14 @@ const {
   updateProduct,
   deleteProduct,
   getAllProducts,
+  getNameProduct,
 } = require("../controllers/product");
 
 //! GET
 router.get("/helloworld", hellowWorld);
 router.get("/product/:id", getProduct);
 router.get("/products", getAllProducts)
+router.get("/product/name/:name", getNameProduct)
 
 //! POST
 router.post("/product", createProduct);
