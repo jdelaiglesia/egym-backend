@@ -3,7 +3,7 @@ const { Router } = require("express");
 const router = Router();
 
 const hellowWorld = require("../controllers/helloWorld");
-
+const getAllProduct = require("../controllers/getAllProducts")
 const {
   getProduct,
   createProduct,
@@ -14,7 +14,7 @@ const {
 //! GET
 router.get("/helloworld", hellowWorld);
 router.get("/product/:id", getProduct);
-
+router.get("/products", getAllProduct)
 
 //! POST
 router.post("/product", createProduct);
