@@ -15,6 +15,7 @@ const {
 router.get("/helloworld", hellowWorld);
 router.get("/product/:id", getProduct);
 
+
 //! POST
 router.post("/product", createProduct);
 

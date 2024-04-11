@@ -3,7 +3,9 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 
 // URL de conexión a la base de datos de MongoDB
+
 const dbURL = process.env.MONGODB_URL;
+
 
 // Conexión a la base de datos
 mongoose
