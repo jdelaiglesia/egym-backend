@@ -9,12 +9,13 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
+  getAllProducts,
 } = require("../controllers/product");
 
 //! GET
 router.get("/helloworld", hellowWorld);
 router.get("/product/:id", getProduct);
-
+router.get("/products", getAllProducts)
 
 //! POST
 router.post("/product", createProduct);
