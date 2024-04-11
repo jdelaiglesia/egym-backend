@@ -14,3 +14,9 @@ mongoose
   .catch((error) => {
     console.error("Error al conectar a la base de datos: ", error);
   });
+
+mongoose.connection.on("connected", () => {
+  console.log(
+    "Mongoose está conectado a " + mongoose.connection.db.databaseName
+  );
+});
