@@ -1,7 +1,11 @@
+require("dotenv").config();
+
 const mongoose = require("mongoose");
 
 // URL de conexión a la base de datos de MongoDB
-const dbURL = "mongodb://127.0.0.1:27017/test";//localhost:27017
+
+const dbURL = process.env.MONGODB_URL;
+
 
 // Conexión a la base de datos
 mongoose
@@ -12,3 +16,9 @@ mongoose
   .catch((error) => {
     console.error("Error al conectar a la base de datos: ", error);
   });
+
+mongoose.connection.on("connected", () => {
+  console.log(
+    "Mongoose está conectado a " + mongoose.connection.db.databaseName
+  );
+});
