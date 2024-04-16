@@ -1,24 +1,24 @@
 const Product = require("../models/Product");
 
-const getNameProduct = async (req ,res)=>{
+const getNameProduct = async (req, res) => {
   try {
-    const products = await Product.find({})
-    const filterName = products.filter((p)=>p.name.includes(req.params.name))
-      if(filterName.length>0) return res.status(200).json(filterName)
-      else return res.status(404).json({ message: "Product not found" })
+    const products = await Product.find({});
+    const filterName = products.filter((p) => p.name.includes(req.params.name));
+    if (filterName.length > 0) return res.status(200).json(filterName);
+    else return res.status(404).json({ message: "Product not found" });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
-const getAllProducts = async (req, res)=>{
+const getAllProducts = async (req, res) => {
   try {
-      const getAll = await Product.find({available: true})
-      res.status(200).json(getAll)
+    const getAll = await Product.find({ available: true });
+    res.status(200).json(getAll);
   } catch (error) {
-     res.status(500).json({ message: error.message });
-  }   
- }
+    res.status(500).json({ message: error.message });
+  }
+};
 
 const getProduct = async (req, res) => {
   try {
@@ -34,8 +34,15 @@ const getProduct = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { name, price, available } = req.body;
-    const product = new Product({ name, price, available });
+    const { name, stock, price, available, url_image, category } = req.body;
+    const product = new Product({
+      name,
+      stock,
+      price,
+      available,
+      url_image,
+      category,
+    });
     await product.save();
     res.status(201).json(product);
   } catch (err) {
