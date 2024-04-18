@@ -40,7 +40,11 @@ const UserSchema = new mongoose.Schema({
   is_member : {
     type: Boolean,
     default: false,
-  }
+  },
+  deleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const User = mongoose.model("User", UserSchema);
