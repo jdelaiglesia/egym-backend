@@ -8,7 +8,10 @@ const getUsers = (req, res) => {
 
 const getUserByEmail = (req, res) => {
     const {email} = req.params
-    User.findOne({email: email })
+    User.findOne({
+        email: email,
+        deleted: { $ne: true },
+    })
     .then(data => {
         if (data){ res.status(200).json(data)} 
         else{ res.status(404).json({message: "User not found"})}})
@@ -22,8 +25,11 @@ const postUser = async (req, res) => {
         return res.status(404).json({ message: "Incomplete information"})
     }
     try {
-        let user = await User.findOne({ email })
-        if(!user.delete){ return res.status(409).json({message: "User already exists"})}
+        let user = await User.findOne({
+            email: email,
+            deleted: { $ne: true }
+            })
+        if(!user.deleted){ return res.status(404).json({message: "User already exists"})}
         else{
             const user = new User({ 
                 name, 
@@ -54,7 +60,7 @@ const putUser = async (req, res) => {
         }
         if(!userId){ return res.status(404).json({ message: "User ID is required"})}
         const user = await User.findById(userId)
-        if(!user){ return res.status(404).json({ message: "User not found"})}
+        if(!user || user.deleted){ return res.status(404).json({ message: "User not found"})}
 
         user.name = name; 
         user.last_name = last_name; 
@@ -81,13 +87,13 @@ const deleteUser = async (req, res) => {
 
         const user = await User.findById(userId)
         if(!user || user.deleted){
-            return res.status(404).json({ message: "User already delete"})
+            return res.status(404).json({ message: "User not found"})
         }
 
         user.deleted = true
         await user.save()
 
-        res.json(user)
+        res.status(200).json(user)
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

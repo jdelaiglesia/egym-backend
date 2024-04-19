@@ -27,6 +27,14 @@ const {
   deleteUser
 } = require('../controllers/user')
 
+const {
+  getCategories,
+  getCategory,
+  postCategory,
+  putCategory,
+  deleteCategory
+} = require('../controllers/category')
+
 //! GET
 router.get("/helloworld", hellowWorld);
 router.get("/product/:id", getProduct);
@@ -35,20 +43,24 @@ router.get("/product/name/:name", getNameProduct)
 router.get("/coupon/:name", getDiscountCoupon)
 router.get("/users", getUsers)
 router.get("/user/:email", getUserByEmail)
-
+router.get("/categories", getCategories)
+router.get("/category/:name", getCategory)
 
 //! POST
 router.post("/product", createProduct);
 router.post("/coupon", createDiscountCoupon)
 router.post("/user", postUser)
+router.post("/category", postCategory)
 
 //! PUT
 router.put("/product/:id", updateProduct);
 router.put("/coupon", updateDiscountCoupon)
 router.put("/user/:id", putUser)
+router.put("/category/:id", putCategory)
 
 //! DELETE
 router.delete("/product/:id", deleteProduct);
 router.delete("/user/:id", deleteUser)
+router.delete("/category/:id", deleteCategory)
 
 module.exports = router;
