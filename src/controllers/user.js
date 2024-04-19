@@ -29,7 +29,7 @@ const postUser = async (req, res) => {
             email: email,
             deleted: { $ne: true }
             })
-        if(!user.deleted){ return res.status(404).json({message: "User already exists"})}
+        if(user && !user.deleted){ return res.status(404).json({message: "User already exists"})}
         else{
             const user = new User({ 
                 name, 
