@@ -29,7 +29,7 @@ const getDiscountCoupon = async (req, res)=>{
         const name = req.params.name
         const searchCoupon = await DiscountCoupon.findOne({name: name})
     if (!searchCoupon) {
-        res.status(404).json({message: "coupon not exist"})
+        res.status(200).json({message: "coupon not exist"})
     } else {
         res.status(200).json(searchCoupon)
     }
