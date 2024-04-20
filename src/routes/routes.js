@@ -17,6 +17,7 @@ const {
   deleteProduct,
   getAllProducts,
   getNameProduct,
+  getCategoryProducts
 } = require("../controllers/product");
 
 const {
@@ -24,7 +25,8 @@ const {
   getUserByEmail,
   postUser,
   putUser,
-  deleteUser
+  deleteUser,
+  userLogin
 } = require('../controllers/user')
 
 const {
@@ -39,6 +41,7 @@ const {
 router.get("/helloworld", hellowWorld);
 router.get("/product/:id", getProduct);
 router.get("/products", getAllProducts)
+router.get("/products/category/:id", getCategoryProducts)
 router.get("/product/name/:name", getNameProduct)
 router.get("/coupon/:name", getDiscountCoupon)
 router.get("/users", getUsers)
@@ -50,6 +53,7 @@ router.get("/category/:name", getCategory)
 router.post("/product", createProduct);
 router.post("/coupon", createDiscountCoupon)
 router.post("/user", postUser)
+router.post("/user/login", userLogin)
 router.post("/category", postCategory)
 
 //! PUT

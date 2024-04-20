@@ -99,10 +99,33 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const userLogin = async (req, res) => {
+    const {email, password} = req.body
+
+    if(!email || !password){return res.status(400).json({ message: "Incomplete information"})}
+    try {
+        let user = await User.findOne({
+            email: email,
+            deleted: { $ne: true }
+            })
+        if(!user){ return res.status(404).json({message: "User not found"})}
+        else{
+            if(user.password !== password){
+                return res.status(400).json({access: false, message: "Invalid credentials"})
+            } else {
+                return res.status(200).json({access: true})
+            }
+        }
+    } catch (error){
+        return res.status(500).json({ message: error.message})
+    }
+}
+
 module.exports = {
     getUsers,
     getUserByEmail,
     postUser,
     putUser,
-    deleteUser
+    deleteUser,
+    userLogin,
 }
