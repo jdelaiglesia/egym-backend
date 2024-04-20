@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validateUser = require(".././validations/validateUser")
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -32,6 +33,7 @@ const UserSchema = new mongoose.Schema({
   rank: {
     type: Number,
     required: false,
+    default: 0,
   },
   phone_number: {
     type: Number,
@@ -46,6 +48,11 @@ const UserSchema = new mongoose.Schema({
     default: false,
   },
 });
+
+UserSchema.methods.validateUser = function(){
+  const user = this
+  return validateUser(user)
+}
 
 const User = mongoose.model("User", UserSchema);
 
