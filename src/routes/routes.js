@@ -37,6 +37,12 @@ const {
   deleteCategory
 } = require('../controllers/category')
 
+const {
+  getCommentsProduct,
+  postComment,
+  deleteComment
+} = require('../controllers/comment')
+
 //! GET
 router.get("/helloworld", hellowWorld);
 router.get("/product/:id", getProduct);
@@ -48,6 +54,7 @@ router.get("/users", getUsers)
 router.get("/user/:email", getUserByEmail)
 router.get("/categories", getCategories)
 router.get("/category/:name", getCategory)
+router.get("/comments/:id", getCommentsProduct)
 
 //! POST
 router.post("/product", createProduct);
@@ -55,6 +62,7 @@ router.post("/coupon", createDiscountCoupon)
 router.post("/user", postUser)
 router.post("/user/login", userLogin)
 router.post("/category", postCategory)
+router.post("/comment", postComment)
 
 //! PUT
 router.put("/product/:id", updateProduct);
@@ -66,5 +74,6 @@ router.put("/category/:id", putCategory)
 router.delete("/product/:id", deleteProduct);
 router.delete("/user/:id", deleteUser)
 router.delete("/category/:id", deleteCategory)
+router.delete("/comment/:id", deleteComment)
 
 module.exports = router;
