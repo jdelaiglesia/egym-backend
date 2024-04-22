@@ -35,7 +35,8 @@ const getProduct = async (req, res) => {
 const getCategoryProducts = async (req, res) => {
   const id = req.params.id
   try {
-    const products = await Product.find({ category: id });
+    const products = await Product.find({ category: id, 
+      deleted: { $ne: true } });
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
