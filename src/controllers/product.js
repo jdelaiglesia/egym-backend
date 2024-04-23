@@ -14,7 +14,7 @@ const getNameProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const getAll = await Product.find({ available: true });
+    const getAll = await Product.find({ available: true }).populate("category");
     res.status(200).json(getAll);
   } catch (error) {
     res.status(500).json({ message: error.message });
