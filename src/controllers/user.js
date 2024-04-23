@@ -15,7 +15,9 @@ const getUserByEmail = (req, res) => {
         deleted: { $ne: true },
     })
     .then(data => {
-        if (data){ res.status(200).json(data)} 
+        const {name, last_name, email, dni, address, age, rank,phone_number, is_member} = data
+        userInfo = { name, last_name, email, dni, address, age, rank, phone_number, is_member}
+        if (data){ res.status(200).json(userInfo)} 
         else{ res.status(404).json({message: "User not found"})}})
     .catch(error => res.status(500).json({ message: error.message}))
 }
@@ -111,7 +113,6 @@ const deleteUser = async (req, res) => {
 }
 
 const userLogin = async (req, res) => {
-    console.log(req.body.password)
     if(!req.body.email || !req.body.password){
         return res.status(404).json({message: "Incomplete information"})
     }
@@ -127,7 +128,9 @@ const userLogin = async (req, res) => {
             if(!isMatch){
                 return res.status(209).json({access: false, message: "Invalid credentials"})
             } else {
-                return res.status(200).json({access: true})
+                const {name, last_name, email, dni, address, age, rank,phone_number, is_member} = user
+                userInfo = { name, last_name, email, dni, address, age, rank, phone_number, is_member}
+                return res.status(200).json({access: true, userInfo})
             }
         }
     } catch (error){
