@@ -13,7 +13,7 @@ const getNameProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const getAll = await Product.find({ available: true });
+    const getAll = await Product.find({ available: true }).populate("category");
     res.status(200).json(getAll);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -25,7 +25,7 @@ const getProduct = async (req, res) => {
     const products = await Product.findOne({
       _id: req.params.id,
       deleted: { $ne: true },
-    });
+    }).populate("category");
     res.json(products);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -33,15 +33,17 @@ const getProduct = async (req, res) => {
 };
 
 const getCategoryProducts = async (req, res) => {
-  const id = req.params.id
+  const id = req.params.id;
   try {
-    const products = await Product.find({ category: id, 
-      deleted: { $ne: true } });
+    const products = await Product.find({
+      category: id,
+      deleted: { $ne: true },
+    });
     res.status(200).json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
+};
 
 const createProduct = async (req, res) => {
   try {
@@ -110,5 +112,5 @@ module.exports = {
   deleteProduct,
   getAllProducts,
   getNameProduct,
-  getCategoryProducts
+  getCategoryProducts,
 };
