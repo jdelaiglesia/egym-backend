@@ -1,22 +1,22 @@
 const mongoose = require("mongoose");
-const ObjectId = mongoose.Schema.Types.ObjectId
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 const CommentSchema = new mongoose.Schema({
-  productId: {
-    type: ObjectId, 
-    ref: 'product',
+  product_id: {
+    type: ObjectId,
+    ref: "product",
     required: true,
   },
-  nameUser:{
+  username: {
     type: String,
     required: true,
   },
-  content: {
+  body: {
     type: String,
     maxlength: 150,
     required: true,
   },
-  stars:{
+  rating: {
     type: Number,
     max: 5,
     min: 0,
@@ -25,7 +25,7 @@ const CommentSchema = new mongoose.Schema({
   deleted: {
     type: Boolean,
     default: false,
-  }
+  },
 });
 
 const Comment = mongoose.model("comment", CommentSchema);

@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const Comments = require("../models/Comments");
 
 const getNameProduct = async (req, res) => {
   try {
@@ -22,11 +23,16 @@ const getAllProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   try {
-    const products = await Product.findOne({
+    const product = await Product.findOne({
       _id: req.params.id,
       deleted: { $ne: true },
-    }).populate("category");
-    res.json(products);
+    });
+
+    const comments = await Comments.find({ product_id: product._id });
+
+    const sendProduct = { ...product._doc, comments };
+
+    res.json(sendProduct);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -47,7 +53,8 @@ const getCategoryProducts = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { name, stock, price, available, url_image, category } = req.body;
+    const { name, stock, price, available, url_image, category, description } =
+      req.body;
     const product = new Product({
       name,
       stock,
@@ -55,6 +62,7 @@ const createProduct = async (req, res) => {
       available,
       url_image,
       category,
+      description,
     });
     await product.save();
     res.status(201).json(product);
@@ -114,3 +122,89 @@ module.exports = {
   getNameProduct,
   getCategoryProducts,
 };
+
+/*
+
+Product Detail -> Opiniones -> CreateComment -> Form {
+    product_id: id (PARAMS),
+    username: context_auth (CONTEXT),
+    content: form (TEXTAREA),
+    stars: form (INPUT),
+}
+
+Comments -> [
+{
+  product_id: "6625d14202f0dd78c76d3566",
+  user_name: "Rafael",
+  content: "Muy buen producto.",
+  stars: 4.5
+},
+{
+  product_id: "661ef298bf502c6159836e37",
+  user_name: "Dario",
+  content: "No lo recomiendo, pero si",
+  stars: 3.5
+},
+{
+  product_id: "661ef298bf502c6159836e36",
+  user_name: "Toni",
+  content: "Un 1000",
+  stars: 5
+},
+{
+  product_id: "6625d14202f0dd78c76d3566",
+  user_name: "Matias",
+  content: "Muy buen producto, super recomendable",
+  stars: 5
+},
+]
+
+const comments = await Comments.find({ product_id: 6625d14202f0dd78c76d3566 }) -> [{
+  product_id: "6625d14202f0dd78c76d3566",
+  user_name: "Rafael",
+  content: "Muy buen producto.",
+  stars: 4.5
+},
+{
+  product_id: "6625d14202f0dd78c76d3566",
+  user_name: "Matias",
+  content: "Muy buen producto, super recomendable",
+  stars: 5
+},
+]
+
+Product {
+  name,
+  category:{
+    name: 
+  }
+  comments: comments
+}
+
+
+const comments = await Comments.find({ product_id: req.body.product_id });
+
+
+
+exports.crearComentario = function(req, res) {
+  var comentario = new Comentario({
+    texto: req.body.texto,
+    usuario: req.body.usuario,
+    // más campos según sea necesario
+  });
+
+  comentario.save(function(err, comentarioGuardado) {
+    if (err) return res.status(500).send(err);
+
+    Producto.findById(req.body.productoId, function(err, producto) {
+      if (err) return res.status(500).send(err);
+
+      producto.comentarios.push(comentarioGuardado._id);[...product.comments, comentario_id]
+      producto.save(function(err) {
+        if (err) return res.status(500).send(err);
+
+        res.status(200).send(comentarioGuardado);
+      });
+    });
+
+*/
