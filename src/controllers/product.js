@@ -30,7 +30,13 @@ const getProduct = async (req, res) => {
 
     const comments = await Comments.find({ product_id: product._id });
 
-    const sendProduct = { ...product._doc, comments };
+    let sum = 0
+    for(let i =0; i < comments.length; i++){
+      sum += comments[i].rating;
+    }
+    const averageRating = sum / comments.length
+
+    const sendProduct = { ...product._doc, averageRating, comments };
 
     res.json(sendProduct);
   } catch (err) {
