@@ -8,7 +8,8 @@ const {
   createDiscountCoupon,
   getDiscountCoupon,
   updateDiscountCoupon,
-  deleteDiscountCoupon
+  deleteDiscountCoupon,
+  getAllCoupons
 } = require("../controllers/discountCoupon")
 
 const {
@@ -54,6 +55,7 @@ router.get("/products", getAllProducts)
 router.get("/products/category/:id", getCategoryProducts)
 router.get("/products/filters", getFilteredProducts)
 router.get("/product/name/:name", getNameProduct)
+router.get("/coupons", getAllCoupons)
 router.get("/coupon/:name", getDiscountCoupon)
 router.get("/users", getUsers)
 router.get("/user/:email", getUserByEmail)

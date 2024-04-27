@@ -1,5 +1,13 @@
 const DiscountCoupon = require("../models/DiscountCoupon")
 
+const getAllCoupons = async (req, res) => {
+    try {
+        const coupons = await DiscountCoupon.find({deleted: { $ne: true }})
+        res.status(200).json(coupons)
+    } catch (error) {
+        res.status(400).json({ message: err.message });
+    }
+}
 const updateDiscountCoupon = async (req, res)=>{
     try {
         const {name, available} = req.body
@@ -84,5 +92,6 @@ module.exports = {
     createDiscountCoupon,
     getDiscountCoupon,
     updateDiscountCoupon,
-    deleteDiscountCoupon
+    deleteDiscountCoupon,
+    getAllCoupons
 }
