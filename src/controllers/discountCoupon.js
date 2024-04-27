@@ -16,16 +16,11 @@ const updateDiscountCoupon = async (req, res)=>{
             res.status(500).json({message: "define name or available"})
         }else{
             const updateCoupon = await DiscountCoupon.findOneAndUpdate({name: name}, {available: available}, {new : true})
-
-        if(name && available){
             if(!updateCoupon || updateCoupon.deleted){
                 res.status(404).json({message: "coupon not exist"})
             }else{
                 res.status(200).json({message: "coupon updated correctly", updateCoupon})
             }
-        }else{
-            res.status(500).json({message: "enter coupon name and available"})
-        }
         }
     } catch (err) {
         res.status(400).json({ message: err.message });
@@ -75,7 +70,7 @@ const createDiscountCoupon = async (req, res)=>{
 
 const deleteDiscountCoupon = async (req, res) =>{
     try {
-        const {id} = req.params.id
+        const id = req.params.id
         const coupon = await DiscountCoupon.findById(id)
         if(!coupon || coupon.deleted){
             return res.status(404).json({ message: "Coupon not found" })
