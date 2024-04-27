@@ -14,7 +14,7 @@ const getNameProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const getAll = await Product.find({ available: true }).populate("category");
+    const getAll = await Product.find({ deleted: { $ne: true } }).populate("category");
     res.status(200).json(getAll);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -59,13 +59,12 @@ const getCategoryProducts = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { name, stock, price, available, url_image, category, description } =
+    const { name, stock, price, url_image, category, description } =
       req.body;
     const product = new Product({
       name,
       stock,
       price,
-      available,
       url_image,
       category,
       description,
@@ -79,7 +78,7 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { name, price, available } = req.body;
+    const { name, price, stock } = req.body;
     const productId = req.params.id;
 
     const product = await Product.findById(productId);
@@ -89,7 +88,7 @@ const updateProduct = async (req, res) => {
 
     product.name = name;
     product.price = price;
-    product.available = available;
+    product.stock = stock;
 
     await product.save();
 

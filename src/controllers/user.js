@@ -4,7 +4,12 @@ const bcrypt = require('bcrypt');
 
 const getUsers = (req, res) => {
     User.find({deleted: false})
-    .then(result => res.status(200).json(result))
+    .then(result =>{
+        const users = result.map(user => {
+            let userWithoutPassword = { ...user._doc };
+            delete userWithoutPassword.password;
+            return userWithoutPassword; })
+        res.status(200).json(users)})
     .catch(error => res.status(500).json({ message: error.message}))
 }
 
@@ -94,6 +99,44 @@ const putUser = async (req, res) => {
     }
 }
 
+const putRank = async (req, res) => {
+    try {
+        const userId = req.params.id
+        const {rank} = req.body
+
+        const user = await User.findById(userId)
+        if(!user || user.deleted){
+            return res.status(404).json({ message: "User not found"})
+        }
+
+        user.rank = rank
+        await user.save()
+
+        res.status(200).json({message: "Rank modified successfully"})
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+const putMember = async (req, res) => {
+    try {
+        const userId = req.params.id
+        const {member} = req.body
+
+        const user = await User.findById(userId)
+        if(!user || user.deleted){
+            return res.status(404).json({ message: "User not found"})
+        }
+
+        user.is_member = member
+        await user.save()
+
+        res.status(200).json({message: "Rank modified successfully"})
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
 const deleteUser = async (req, res) => {
     try {
         const userId = req.params.id
@@ -145,4 +188,6 @@ module.exports = {
     putUser,
     deleteUser,
     userLogin,
+    putRank,
+    putMember,
 }

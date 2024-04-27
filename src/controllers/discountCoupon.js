@@ -10,7 +10,7 @@ const updateDiscountCoupon = async (req, res)=>{
             const updateCoupon = await DiscountCoupon.findOneAndUpdate({name: name}, {available: available}, {new : true})
 
         if(name && available){
-            if(!updateCoupon){
+            if(!updateCoupon || updateCoupon.deleted){
                 res.status(404).json({message: "coupon not exist"})
             }else{
                 res.status(200).json({message: "coupon updated correctly", updateCoupon})
@@ -27,7 +27,8 @@ const updateDiscountCoupon = async (req, res)=>{
 const getDiscountCoupon = async (req, res)=>{
     try {
         const name = req.params.name
-        const searchCoupon = await DiscountCoupon.findOne({name: name})
+        const searchCoupon = await DiscountCoupon.findOne({name: name, 
+            deleted: { $ne: true }})
     if (!searchCoupon) {
         res.status(200).json({message: "coupon not exist "})
     } else {
@@ -64,8 +65,24 @@ const createDiscountCoupon = async (req, res)=>{
     }
 }
 
+const deleteDiscountCoupon = async (req, res) =>{
+    try {
+        const {id} = req.params.id
+        const coupon = await DiscountCoupon.findById(id)
+        if(!coupon || coupon.deleted){
+            return res.status(404).json({ message: "Coupon not found" })
+        }
+        coupon.deleted = true
+        await coupon.save()
+        res.status(200).json({message: "Coupon deleted successfully"})
+    } catch (error) {
+        res.status(400).json({ message: err.message });
+    }
+}
+
 module.exports = {
     createDiscountCoupon,
     getDiscountCoupon,
     updateDiscountCoupon,
+    deleteDiscountCoupon
 }

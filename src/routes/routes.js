@@ -8,6 +8,7 @@ const {
   createDiscountCoupon,
   getDiscountCoupon,
   updateDiscountCoupon,
+  deleteDiscountCoupon
 } = require("../controllers/discountCoupon")
 
 const {
@@ -26,7 +27,9 @@ const {
   postUser,
   putUser,
   deleteUser,
-  userLogin
+  userLogin,
+  putMember,
+  putRank
 } = require('../controllers/user')
 
 const {
@@ -68,6 +71,8 @@ router.post("/comment", postComment)
 router.put("/product/:id", updateProduct);
 router.put("/coupon", updateDiscountCoupon)
 router.put("/user/:id", putUser)
+router.put("/user/member/:id", putMember)
+router.put("/user/rank/:id", putRank)
 router.put("/category/:id", putCategory)
 
 //! DELETE
@@ -75,5 +80,6 @@ router.delete("/product/:id", deleteProduct);
 router.delete("/user/:id", deleteUser)
 router.delete("/category/:id", deleteCategory)
 router.delete("/comment/:id", deleteComment)
+router.delete("/coupon/:id", deleteDiscountCoupon)
 
 module.exports = router;
