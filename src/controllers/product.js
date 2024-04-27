@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
 const Comments = require("../models/Comments");
+const Category = require("../models/Category")
 
 const getNameProduct = async (req, res) => {
   try {
@@ -20,6 +21,27 @@ const getAllProducts = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+const getFilteredProducts = async (req, res) => {
+  try {
+    let query = { deleted: { $ne: true } };
+    let sort = {};
+
+    // Si la opción es una categoría
+    const categories = await Category.find({ name: req.query.option, deleted: false });
+    if (categories.length > 0) {
+      query.category = categories[0]._id;
+      // Si se filtra por categoria ordenar por nombre
+      sort['name'] = req.query.order === 'asc' ? 1 : -1
+    }else if(['name', 'stock', 'price'].includes(req.query.option)) { // si la opcion es una propiedad
+      sort[req.query.option] = req.query.order === 'asc' ? 1 : -1;
+    }
+    const products = await Product.find(query).sort(sort).populate("category");
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
 
 const getProduct = async (req, res) => {
   try {
@@ -126,6 +148,7 @@ module.exports = {
   getAllProducts,
   getNameProduct,
   getCategoryProducts,
+  getFilteredProducts,
 };
 
 /*
