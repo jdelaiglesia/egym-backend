@@ -18,7 +18,8 @@ const {
   deleteProduct,
   getAllProducts,
   getNameProduct,
-  getCategoryProducts
+  getCategoryProducts,
+  getFilteredProducts
 } = require("../controllers/product");
 
 const {
@@ -51,6 +52,7 @@ router.get("/helloworld", hellowWorld);
 router.get("/product/:id", getProduct);
 router.get("/products", getAllProducts)
 router.get("/products/category/:id", getCategoryProducts)
+router.get("/products/filters", getFilteredProducts)
 router.get("/product/name/:name", getNameProduct)
 router.get("/coupon/:name", getDiscountCoupon)
 router.get("/users", getUsers)
