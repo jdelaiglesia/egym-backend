@@ -26,7 +26,7 @@ const getProduct = async (req, res) => {
     const product = await Product.findOne({
       _id: req.params.id,
       deleted: { $ne: true },
-    });
+    }).populate('category');
 
     const comments = await Comments.find({ product_id: product._id });
 
