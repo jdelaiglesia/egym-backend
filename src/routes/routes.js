@@ -11,7 +11,8 @@ const {
   getDiscountCoupon,
   updateDiscountCoupon,
   deleteDiscountCoupon,
-} = require("../controllers/discountCoupon");
+} = require("../controllers/discountCoupon")
+
 
 const {
   getProduct,
@@ -60,6 +61,7 @@ router.get("/products/category/:id", getCategoryProducts);
 router.get("/products/filters", getFilteredProducts)
 router.get("/product/name/:name", getNameProduct);
 router.get("/coupon/:name",verifyJWT, getDiscountCoupon);
+router.get("/coupons",verifyJWT, getAllCoupons)
 router.get("/users",verifyJWT, getUsers);
 router.get("/user/:email",verifyJWT, getUserByEmail);
 router.get("/categories", getCategories);
