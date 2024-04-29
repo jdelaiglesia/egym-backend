@@ -41,7 +41,11 @@ const {
   getCommentsProduct,
   postComment,
   deleteComment
-} = require('../controllers/comment')
+} = require('../controllers/comment');
+
+const {
+  createPreferenceMercadoPago
+} = require("../controllers/mercadoPago");
 
 //! GET
 router.get("/helloworld", hellowWorld);
@@ -56,6 +60,7 @@ router.get("/categories", getCategories)
 router.get("/category/:name", getCategory)
 router.get("/comments/:id", getCommentsProduct)
 
+
 //! POST
 router.post("/product", createProduct);
 router.post("/coupon", createDiscountCoupon)
@@ -63,6 +68,7 @@ router.post("/user", postUser)
 router.post("/user/login", userLogin)
 router.post("/category", postCategory)
 router.post("/comment", postComment)
+router.post("/payment", createPreferenceMercadoPago)
 
 //! PUT
 router.put("/product/:id", updateProduct);
