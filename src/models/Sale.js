@@ -9,15 +9,32 @@ const SaleSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   products: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Product",
+      _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+        required: true,
+      },
+      quantity: {
+        type: Number,
+        required: true,
+      },
     },
   ],
   deleted: {
     type: Boolean,
     default: false,
+  },
+  status: {
+    type: String,
+    enum: ["pending", "completed"],
+    default: "pending",
   },
 });
 
