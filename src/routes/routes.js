@@ -1,4 +1,6 @@
 const { Router } = require("express");
+const { verifyJWT } = require("../middlewares/verifyJwt");
+const { getVerify } = require("../controllers/verify");
 
 const router = Router();
 
@@ -10,6 +12,7 @@ const {
   updateDiscountCoupon,
   deleteDiscountCoupon,
 } = require("../controllers/discountCoupon");
+
 
 const {
   getProduct,
@@ -55,6 +58,9 @@ const {
   deleteSale,
 } = require("../controllers/sale");
 
+// GET Verify
+router.get("/auth/token", verifyJWT, getVerify);
+
 //! GET
 router.get("/helloworld", hellowWorld);
 router.get("/product/:id", getProduct);
@@ -70,6 +76,7 @@ router.get("/category/:name", getCategory);
 router.get("/comments/:id", getCommentsProduct);
 router.get("/sales", getAllSales);
 router.get("/sale/:id", getSale);
+
 
 //! POST
 router.post("/product", createProduct);
