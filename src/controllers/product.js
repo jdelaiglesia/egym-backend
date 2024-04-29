@@ -1,5 +1,6 @@
 const Product = require("../models/Product");
 const Comments = require("../models/Comments");
+const Category = require("../models/Category")
 
 const getNameProduct = async (req, res) => {
   try {
@@ -14,19 +15,40 @@ const getNameProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
   try {
-    const getAll = await Product.find({ available: true }).populate("category");
+    const getAll = await Product.find({ deleted: { $ne: true } }).populate("category");
     res.status(200).json(getAll);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
+const getFilteredProducts = async (req, res) => {
+  try {
+    let query = { deleted: { $ne: true } };
+    let sort = {};
+
+    // Si la opción es una categoría
+    const categories = await Category.find({ name: req.query.option, deleted: false });
+    if (categories.length > 0) {
+      query.category = categories[0]._id;
+      // Si se filtra por categoria ordenar por nombre
+      sort['name'] = req.query.order === 'asc' ? 1 : -1
+    }else if(['name', 'stock', 'price'].includes(req.query.option)) { // si la opcion es una propiedad
+      sort[req.query.option] = req.query.order === 'asc' ? 1 : -1;
+    }
+    const products = await Product.find(query).sort(sort).populate("category");
+    res.status(200).json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
 const getProduct = async (req, res) => {
   try {
     const product = await Product.findOne({
       _id: req.params.id,
       deleted: { $ne: true },
-    });
+    }).populate('category');
 
     const comments = await Comments.find({ product_id: product._id });
 
@@ -59,13 +81,12 @@ const getCategoryProducts = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { name, stock, price, available, url_image, category, description } =
+    const { name, stock, price, url_image, category, description } =
       req.body;
     const product = new Product({
       name,
       stock,
       price,
-      available,
       url_image,
       category,
       description,
@@ -79,7 +100,7 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { name, price, available } = req.body;
+    const { name, price, stock } = req.body;
     const productId = req.params.id;
 
     const product = await Product.findById(productId);
@@ -89,7 +110,7 @@ const updateProduct = async (req, res) => {
 
     product.name = name;
     product.price = price;
-    product.available = available;
+    product.stock = stock;
 
     await product.save();
 
@@ -127,6 +148,7 @@ module.exports = {
   getAllProducts,
   getNameProduct,
   getCategoryProducts,
+  getFilteredProducts,
 };
 
 /*
