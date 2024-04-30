@@ -11,6 +11,7 @@ const {
   getDiscountCoupon,
   updateDiscountCoupon,
   deleteDiscountCoupon,
+  getAllCoupons
 } = require("../controllers/discountCoupon");
 
 
@@ -73,6 +74,7 @@ router.get("/products/category/:id", getCategoryProducts);
 router.get("/products/filters", getFilteredProducts);
 router.get("/product/name/:name", getNameProduct);
 router.get("/coupon/:name", getDiscountCoupon);
+router.get("/coupons", getAllCoupons);
 router.get("/users", getUsers);
 router.get("/user/:email", getUserByEmail);
 router.get("/categories", getCategories);
@@ -85,17 +87,12 @@ router.get("/sale/:id", getSale);
 
 //! POST
 router.post("/product", createProduct);
-router.post("/coupon", createDiscountCoupon)
-router.post("/user", postUser)
-router.post("/user/login", userLogin)
-router.post("/category", postCategory)
-router.post("/comment", postComment)
-router.post("/payment", createPreferenceMercadoPago)
 router.post("/coupon", createDiscountCoupon);
 router.post("/user", postUser);
 router.post("/user/login", userLogin);
 router.post("/category", postCategory);
 router.post("/comment", postComment);
+router.post("/payment", createPreferenceMercadoPago);
 router.post("/sale", createSale);
 
 
