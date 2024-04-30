@@ -5,7 +5,10 @@ const todayDate = new Date();
 
 const getAllSales = async (req, res) => {
   try {
-    const sales = await Sale.find({ deleted: false });
+    const sales = await Sale.find({ deleted: false }).populate('user').populate({
+      path: 'products._id',
+      model: 'product'
+  })
     res.status(200).json(sales);
   } catch (error) {
     res.status(500).json({ error: error.message });
