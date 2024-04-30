@@ -5,9 +5,10 @@ const todayDate = new Date();
 
 const getAllSales = async (req, res) => {
   try {
-    const sales = await Sale.find({ deleted: false }).populate('user').populate({
+    const sales = await Sale.find({ deleted: false }).populate('user', '_id name last_name email address phone_number').populate({
       path: 'products._id',
-      model: 'product'
+      model: 'product',
+      select: '_id name url_image'
   })
     res.status(200).json(sales);
   } catch (error) {
