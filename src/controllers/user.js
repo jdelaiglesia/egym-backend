@@ -24,6 +24,7 @@ const getUserByEmail = (req, res) => {
   })
     .then((data) => {
       const {
+        _id,
         name,
         last_name,
         email,
@@ -35,6 +36,7 @@ const getUserByEmail = (req, res) => {
         is_member,
       } = data;
       userInfo = {
+        _id,
         name,
         last_name,
         email,
@@ -233,6 +235,35 @@ const userLogin = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+const updateProfile = async (req, res) => {
+  const { id } = req.params;
+  const { name, last_name, dni, phone_number, password } = req.body;
+
+  if (!id) return res.status(400).json({ message: "Invalid Credentials" });
+  if (!name || !last_name || !dni || !password || !phone_number)
+    return res.status(400).json({ message: "Invalid Credentials" });
+
+  try {
+    const user = await User.findById(id);
+
+    const verify = await bcrypt.compare(password, user.password);
+
+    if (verify) {
+      user.name = name;
+      user.last_name = last_name;
+      user.dni = dni;
+      user.phone_number = phone_number;
+
+      await user.save();
+
+      return res.status(200).json(user);
+    } else {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 
 module.exports = {
   getUsers,
@@ -243,4 +274,5 @@ module.exports = {
   userLogin,
   putRank,
   putMember,
+  updateProfile,
 };
