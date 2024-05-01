@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const { verifyJWT } = require("../middlewares/verifyJwt");
 const { getVerify } = require("../controllers/verify");
+const { sendRegister } = require("../controllers/mailer");
 
 const router = Router();
 
@@ -27,22 +28,22 @@ const {
 } = require("../controllers/product");
 
 const {
-  getUsers,
-  getUserByEmail,
-  postUser,
-  putUser,
-  deleteUser,
-  userLogin,
-  putMember,
-  putRank,
+    getUsers,
+    getUserByEmail,
+    postUser,
+    putUser,
+    deleteUser,
+    userLogin,
+    putMember,
+    putRank,
 } = require("../controllers/user");
 
 const {
-  getCategories,
-  getCategory,
-  postCategory,
-  putCategory,
-  deleteCategory,
+    getCategories,
+    getCategory,
+    postCategory,
+    putCategory,
+    deleteCategory,
 } = require("../controllers/category");
 
 const {
@@ -62,6 +63,7 @@ const {
   completeSale,
   deleteSale,
 } = require("../controllers/sale");
+
 
 // GET Verify
 router.get("/auth/token", verifyJWT, getVerify);
@@ -92,6 +94,7 @@ router.post("/user", postUser);
 router.post("/user/login", userLogin);
 router.post("/category", postCategory);
 router.post("/comment", postComment);
+router.post("/registeremail", sendRegister);
 router.post("/payment", createPreferenceMercadoPago);
 router.post("/sale", createSale);
 
