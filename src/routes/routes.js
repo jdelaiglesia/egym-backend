@@ -12,9 +12,8 @@ const {
   getDiscountCoupon,
   updateDiscountCoupon,
   deleteDiscountCoupon,
-  getAllCoupons
+  getAllCoupons,
 } = require("../controllers/discountCoupon");
-
 
 const {
   getProduct,
@@ -28,33 +27,32 @@ const {
 } = require("../controllers/product");
 
 const {
-    getUsers,
-    getUserByEmail,
-    postUser,
-    putUser,
-    deleteUser,
-    userLogin,
-    putMember,
-    putRank,
+  getUsers,
+  getUserByEmail,
+  postUser,
+  putUser,
+  deleteUser,
+  userLogin,
+  putMember,
+  putRank,
+  updateProfile,
 } = require("../controllers/user");
 
 const {
-    getCategories,
-    getCategory,
-    postCategory,
-    putCategory,
-    deleteCategory,
+  getCategories,
+  getCategory,
+  postCategory,
+  putCategory,
+  deleteCategory,
 } = require("../controllers/category");
 
 const {
   getCommentsProduct,
   postComment,
-  deleteComment
-} = require('../controllers/comment');
+  deleteComment,
+} = require("../controllers/comment");
 
-const {
-  createPreferenceMercadoPago
-} = require("../controllers/mercadoPago");
+const { createPreferenceMercadoPago } = require("../controllers/mercadoPago");
 
 const {
   getAllSales,
@@ -63,7 +61,6 @@ const {
   completeSale,
   deleteSale,
 } = require("../controllers/sale");
-
 
 // GET Verify
 router.get("/auth/token", verifyJWT, getVerify);
@@ -85,8 +82,6 @@ router.get("/comments/:id", getCommentsProduct);
 router.get("/sales", getAllSales);
 router.get("/sale/:id", getSale);
 
-
-
 //! POST
 router.post("/product", createProduct);
 router.post("/coupon", createDiscountCoupon);
@@ -98,7 +93,6 @@ router.post("/registeremail", sendRegister);
 router.post("/payment", createPreferenceMercadoPago);
 router.post("/sale", createSale);
 
-
 //! PUT
 router.put("/product/:id", updateProduct);
 router.put("/coupon", updateDiscountCoupon);
@@ -107,6 +101,7 @@ router.put("/user/member/:id", putMember);
 router.put("/user/rank/:id", putRank);
 router.put("/category/:id", putCategory);
 router.put("/sale/:id", completeSale);
+router.put("/user/update/:id", verifyJWT, updateProfile);
 
 //! DELETE
 router.delete("/product/:id", deleteProduct);
