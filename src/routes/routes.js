@@ -1,53 +1,54 @@
 const { Router } = require("express");
 const { verifyJWT } = require("../middlewares/verifyJwt");
 const { getVerify } = require("../controllers/verify");
+const { sendRegister } = require("../controllers/mailer");
 
 const router = Router();
 
 const hellowWorld = require("../controllers/helloWorld");
 
 const {
-  createDiscountCoupon,
-  getDiscountCoupon,
-  updateDiscountCoupon,
-  deleteDiscountCoupon,
-} = require("../controllers/discountCoupon")
-
+    createDiscountCoupon,
+    getDiscountCoupon,
+    updateDiscountCoupon,
+    deleteDiscountCoupon,
+    getAllCoupons,
+} = require("../controllers/discountCoupon");
 
 const {
-  getProduct,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-  getAllProducts,
-  getNameProduct,
-  getCategoryProducts,
-  getFilteredProducts
+    getProduct,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+    getAllProducts,
+    getNameProduct,
+    getCategoryProducts,
+    getFilteredProducts,
 } = require("../controllers/product");
 
 const {
-  getUsers,
-  getUserByEmail,
-  postUser,
-  putUser,
-  deleteUser,
-  userLogin,
-  putMember,
-  putRank,
+    getUsers,
+    getUserByEmail,
+    postUser,
+    putUser,
+    deleteUser,
+    userLogin,
+    putMember,
+    putRank,
 } = require("../controllers/user");
 
 const {
-  getCategories,
-  getCategory,
-  postCategory,
-  putCategory,
-  deleteCategory,
+    getCategories,
+    getCategory,
+    postCategory,
+    putCategory,
+    deleteCategory,
 } = require("../controllers/category");
 
 const {
-  getCommentsProduct,
-  postComment,
-  deleteComment,
+    getCommentsProduct,
+    postComment,
+    deleteComment,
 } = require("../controllers/comment");
 
 // GET Verify
@@ -58,12 +59,12 @@ router.get("/helloworld", hellowWorld);
 router.get("/product/:id", getProduct);
 router.get("/products", getAllProducts);
 router.get("/products/category/:id", getCategoryProducts);
-router.get("/products/filters", getFilteredProducts)
+router.get("/products/filters", getFilteredProducts);
 router.get("/product/name/:name", getNameProduct);
-router.get("/coupon/:name",verifyJWT, getDiscountCoupon);
-router.get("/coupons",verifyJWT, getAllCoupons)
-router.get("/users",verifyJWT, getUsers);
-router.get("/user/:email",verifyJWT, getUserByEmail);
+router.get("/coupon/:name", verifyJWT, getDiscountCoupon);
+router.get("/coupons", verifyJWT, getAllCoupons);
+router.get("/users", verifyJWT, getUsers);
+router.get("/user/:email", verifyJWT, getUserByEmail);
 router.get("/categories", getCategories);
 router.get("/category/:name", getCategory);
 router.get("/comments/:id", getCommentsProduct);
@@ -75,6 +76,7 @@ router.post("/user", postUser);
 router.post("/user/login", userLogin);
 router.post("/category", verifyJWT, postCategory);
 router.post("/comment", verifyJWT, postComment);
+router.post("/registeremail", sendRegister);
 
 //! PUT
 router.put("/product/:id", verifyJWT, updateProduct);
