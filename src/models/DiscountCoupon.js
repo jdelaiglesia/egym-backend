@@ -12,6 +12,10 @@ const DiscountCouponSchema = new mongoose.Schema({
   available: {
     type: Boolean,
   },
+  deleted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const DiscountCoupon = mongoose.model("DiscountCoupon", DiscountCouponSchema);
