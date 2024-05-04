@@ -14,14 +14,14 @@ const getCommentsProduct = async (req, res) => {
 };
 
 const postComment = async (req, res) => {
-  const { product_id, username, body, rating } = req.body;
-  if (!product_id || !username || !body || !rating) {
+  const { product_id, user, body, rating } = req.body;
+  if (!product_id || !user || !body || !rating) {
     return res.status(400).json({ message: "Incomplete information" });
   }
   try {
     const comment = new Comment({
       product_id,
-      username,
+      user,
       body,
       rating,
     });
