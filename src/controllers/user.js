@@ -28,6 +28,7 @@ const getUserByEmail = (req, res) => {
         name,
         last_name,
         email,
+        url_image,
         dni,
         address,
         age,
@@ -40,6 +41,7 @@ const getUserByEmail = (req, res) => {
         name,
         last_name,
         email,
+        url_image,
         dni,
         address,
         age,
@@ -76,6 +78,9 @@ const postUser = async (req, res) => {
       name: req.body.name,
       last_name: req.body.last_name,
       email: req.body.email,
+      url_image: req.body.url_image
+        ? req.body.url_image
+        : "https://cdn-icons-png.flaticon.com/512/8243/8243592.png",
       password: hashedPassword,
       dni: req.body.dni,
       address: req.body.address,
@@ -223,9 +228,11 @@ const userLogin = async (req, res) => {
         return res.status(200).json({
           user: {
             token,
+            _id: user._id,
             name: user.name,
             last_name: user.last_name,
             email: user.email,
+            url_image: user.url_image,
           },
           message: "Login succesfully",
         });
@@ -237,10 +244,10 @@ const userLogin = async (req, res) => {
 };
 const updateProfile = async (req, res) => {
   const { id } = req.params;
-  const { name, last_name, dni, phone_number, password } = req.body;
+  const { name, last_name, dni, phone_number, password, url_image } = req.body;
 
   if (!id) return res.status(400).json({ message: "Invalid Credentials" });
-  if (!name || !last_name || !dni || !password || !phone_number)
+  if (!name || !last_name || !dni || !password || !phone_number || !url_image)
     return res.status(400).json({ message: "Invalid Credentials" });
 
   try {
@@ -253,6 +260,7 @@ const updateProfile = async (req, res) => {
       user.last_name = last_name;
       user.dni = dni;
       user.phone_number = phone_number;
+      user.url_image = url_image;
 
       await user.save();
 
