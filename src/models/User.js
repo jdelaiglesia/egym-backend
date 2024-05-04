@@ -18,6 +18,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  url_image: {
+    type: String,
+    required: false,
+    detault: "https://cdn-icons-png.flaticon.com/512/8243/8243592.png",
+  },
   dni: {
     type: Number,
     required: true,
