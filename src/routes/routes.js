@@ -65,6 +65,10 @@ const {
   deleteSale,
 } = require("../controllers/sale");
 
+const {
+  getStats
+} = require('../controllers/stats')
+
 // GET Verify
 router.get("/auth/token", verifyJWT, getVerify);
 
@@ -84,6 +88,7 @@ router.get("/category/:name", getCategory);
 router.get("/comments/:id", getCommentsProduct);
 router.get("/sales", getAllSales);
 router.get("/sale/:id", getSale);
+router.get("/stats", getStats);
 
 //! POST
 router.post("/product", createProduct);
