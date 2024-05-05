@@ -68,11 +68,18 @@ const postUser = async (req, res) => {
       deleted: { $ne: true },
     });
     if (user && !user.deleted) {
-      return res.status(404).json({ message: "User already exists" });
+      return res.status(200).json({ message: "User already exists", user: user });
     }
 
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    let hashedPassword = "google123";//password for google login
+    hashedPassword = await bcrypt.hash(hashedPassword, salt);
+    if (req.body.password !== undefined) {
+      hashedPassword = await bcrypt.hash(req.body.password, salt);
+    } else {
+      hashedPassword = await bcrypt.hash(hashedPassword, salt)
+    }
+    console.log(hashedPassword);
 
     user = new User({
       name: req.body.name,
@@ -82,15 +89,15 @@ const postUser = async (req, res) => {
         ? req.body.url_image
         : "https://cdn-icons-png.flaticon.com/512/8243/8243592.png",
       password: hashedPassword,
-      dni: req.body.dni,
-      address: req.body.address,
-      age: req.body.age,
-      rank: req.body.rank ? req.body.rank : 0,
-      phone_number: req.body.phone_number,
-      is_member: req.body.is_member ? true : false,
+      dni: req.body?.dni,
+      address: req.body?.address,
+      age: req.body?.age,
+      rank: req.body?.rank ? req.body.rank : 0,
+      phone_number: req.body?.phone_number,
+      is_member: req.body?.is_member ? true : false,
     });
     await user.save();
-    return res.status(200).json({ message: "Successfully registered user" });
+    return res.status(200).json({ message: "Successfully registered user", user: user });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -208,7 +215,7 @@ const userLogin = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     } else {
-      const isMatch = await bcrypt.compare(req.body.password, user.password);
+      const isMatch = (await bcrypt.compare(req.body.password, user.password)) || (req.body.password === user.password);
 
       if (!isMatch) {
         return res.status(400).json({ message: "Invalid credentials" });

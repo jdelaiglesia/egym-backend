@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
+    required: false,
   },
   url_image: {
     type: String,
@@ -25,15 +25,15 @@ const UserSchema = new mongoose.Schema({
   },
   dni: {
     type: Number,
-    required: true,
+    required: false,
   },
   address: {
     type: String,
-    required: true,
+    required: false,
   },
   age: {
     type: Number,
-    required: true,
+    required: false,
   },
   rank: {
     type: Number,
@@ -42,7 +42,7 @@ const UserSchema = new mongoose.Schema({
   },
   phone_number: {
     type: Number,
-    required: true,
+    required: false,
   },
   is_member : {
     type: Boolean,
