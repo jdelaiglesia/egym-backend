@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const SaleSchema = new mongoose.Schema({
+  id:{
+    type: String,
+    required: true,
+  },
   date: {
     type: Date,
     required: true,
