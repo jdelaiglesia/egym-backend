@@ -32,7 +32,7 @@ const getSale = async (req, res) => {
 
 const createSale = async (req, res) => {
   try {
-    const { products, user } = req.body;
+    const { products, user, id } = req.body;
     let total = 0;
     for (let i = 0; i < products.length; i++) {
       const product = await Product.findOne({
@@ -44,7 +44,7 @@ const createSale = async (req, res) => {
       }
       total += product.price * products[i].quantity;
     }
-    const sale = new Sale({ date: todayDate, total, products, user });
+    const sale = new Sale({ date: todayDate, total, products, user, id });
     const userExists = await User.findOne({
       _id: user,
       deleted: { $ne: true },
@@ -62,7 +62,7 @@ const createSale = async (req, res) => {
 const completeSale = async (req, res) => {
   try {
     const { id } = req.params;
-    const sale = await Sale.findOne({ _id: id, deleted: { $ne: true } });
+    const sale = await Sale.findOne({ id: id, deleted: { $ne: true } });
     if (sale) {
       sale.status = "completed";
       const products = sale.products;

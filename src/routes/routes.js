@@ -52,7 +52,10 @@ const {
   deleteComment,
 } = require("../controllers/comment");
 
-const { createPreferenceMercadoPago } = require("../controllers/mercadoPago");
+const {
+  createPreferenceMercadoPago,
+  getDataPayment
+} = require("../controllers/mercadoPago");
 
 const {
   getAllSales,
@@ -96,6 +99,7 @@ router.post("/category", postCategory);
 router.post("/comment", postComment);
 router.post("/registeremail", sendRegister);
 router.post("/payment", createPreferenceMercadoPago);
+router.post("/datapayment", getDataPayment)
 router.post("/sale", createSale);
 
 //! PUT
