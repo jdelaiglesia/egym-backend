@@ -206,7 +206,6 @@ const deleteUser = async (req, res) => {
 
 const userLogin = async (req, res) => {
   if (!req.body.email || !req.body.password) {
-    console.log(req.body.password, req.body.email);
     return res.status(400).json({ message: "Incomplete information" });
   }
 
@@ -281,6 +280,58 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const adminLogin = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password)
+    return res.status(400).json({ message: "Invalid credentials" });
+
+  try {
+    const user = await User.findOne({ email, deleted: { $ne: true } });
+
+    if (!user) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    } else {
+      const isMatch =
+        (await bcrypt.compare(req.body.password, user.password)) ||
+        req.body.password === user.password;
+
+      if (!isMatch) {
+        return res.status(400).json({ message: "Invalid credentials" });
+      } else {
+        if (user.rank != 10)
+          return res.status(401).json({ message: "Unauthorized" });
+
+        const payloadUser = {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          rank: user.rank,
+          is_member: user.is_member,
+        };
+
+        const token = jwt.sign(payloadUser, process.env.SECRET, {
+          expiresIn: 60 * 60 * 300,
+        });
+
+        return res.status(200).json({
+          user: {
+            token,
+            _id: user._id,
+            name: user.name,
+            last_name: user.last_name,
+            email: user.email,
+            url_image: user.url_image,
+          },
+          message: "Login succesfully",
+        });
+      }
+    }
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   getUsers,
   getUserByEmail,
@@ -291,4 +342,5 @@ module.exports = {
   putRank,
   putMember,
   updateProfile,
+  adminLogin,
 };

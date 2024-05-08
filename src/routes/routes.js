@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const { verifyJWT } = require("../middlewares/verifyJwt");
+const { verifyAdmin } = require("../middlewares/verifyAdmin");
 const { getVerify } = require("../controllers/verify");
 const { sendRegister } = require("../controllers/mailer");
 
@@ -36,6 +37,7 @@ const {
   putMember,
   putRank,
   updateProfile,
+  adminLogin,
 } = require("../controllers/user");
 
 const {
@@ -54,7 +56,7 @@ const {
 
 const {
   createPreferenceMercadoPago,
-  getDataPayment
+  getDataPayment,
 } = require("../controllers/mercadoPago");
 
 const {
@@ -65,12 +67,13 @@ const {
   deleteSale,
 } = require("../controllers/sale");
 
-const {
-  getStats
-} = require('../controllers/stats')
+const { getStats } = require("../controllers/stats");
 
-// GET Verify
-router.get("/auth/token", verifyJWT, getVerify);
+// GET Verify Admin
+router.get("/dashboard/verify", verifyAdmin, getVerify);
+
+// POST Login Dashboard
+router.post("/dashboard/auth", adminLogin);
 
 //! GET
 router.get("/helloworld", hellowWorld);
@@ -99,7 +102,7 @@ router.post("/category", postCategory);
 router.post("/comment", postComment);
 router.post("/registeremail", sendRegister);
 router.post("/payment", createPreferenceMercadoPago);
-router.post("/datapayment", getDataPayment)
+router.post("/datapayment", getDataPayment);
 router.post("/sale", createSale);
 
 //! PUT
