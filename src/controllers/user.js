@@ -68,16 +68,18 @@ const postUser = async (req, res) => {
       deleted: { $ne: true },
     });
     if (user && !user.deleted) {
-      return res.status(200).json({ message: "User already exists", user: user });
+      return res
+        .status(200)
+        .json({ message: "User already exists", user: user });
     }
 
     const salt = await bcrypt.genSalt(10);
-    let hashedPassword = "google123";//password for google login
+    let hashedPassword = "google123"; //password for google login
     hashedPassword = await bcrypt.hash(hashedPassword, salt);
     if (req.body.password !== undefined) {
       hashedPassword = await bcrypt.hash(req.body.password, salt);
     } else {
-      hashedPassword = await bcrypt.hash(hashedPassword, salt)
+      hashedPassword = await bcrypt.hash(hashedPassword, salt);
     }
     console.log(hashedPassword);
 
@@ -97,7 +99,9 @@ const postUser = async (req, res) => {
       is_member: req.body?.is_member ? true : false,
     });
     await user.save();
-    return res.status(200).json({ message: "Successfully registered user", user: user });
+    return res
+      .status(200)
+      .json({ message: "Successfully registered user", user: user });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -215,7 +219,9 @@ const userLogin = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     } else {
-      const isMatch = (await bcrypt.compare(req.body.password, user.password)) || (req.body.password === user.password);
+      const isMatch =
+        (await bcrypt.compare(req.body.password, user.password)) ||
+        req.body.password === user.password;
 
       if (!isMatch) {
         return res.status(400).json({ message: "Invalid credentials" });
@@ -290,4 +296,5 @@ module.exports = {
   putRank,
   putMember,
   updateProfile,
+  
 };

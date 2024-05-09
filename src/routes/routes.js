@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const { verifyJWT } = require("../middlewares/verifyJwt");
 const { getVerify } = require("../controllers/verify");
-const { sendRegister } = require("../controllers/mailer");
+const { sendRegisterEmail,sendMembershipEmail,sendOrderEmail } = require("../controllers/mailer");
 
 const router = Router();
 
@@ -36,6 +36,7 @@ const {
   putMember,
   putRank,
   updateProfile,
+  
 } = require("../controllers/user");
 
 const {
@@ -90,6 +91,7 @@ router.get("/sales", getAllSales);
 router.get("/sale/:id", getSale);
 router.get("/stats", getStats);
 
+
 //! POST
 router.post("/product", createProduct);
 router.post("/coupon", createDiscountCoupon);
@@ -97,7 +99,9 @@ router.post("/user", postUser);
 router.post("/user/login", userLogin);
 router.post("/category", postCategory);
 router.post("/comment", postComment);
-router.post("/registeremail", sendRegister);
+router.post("/registeremail", sendRegisterEmail);
+router.post("/membershipemail",sendMembershipEmail);
+router.post("/orderemail",sendOrderEmail);
 router.post("/payment", createPreferenceMercadoPago);
 router.post("/datapayment", getDataPayment)
 router.post("/sale", createSale);
@@ -111,6 +115,7 @@ router.put("/user/rank/:id", putRank);
 router.put("/category/:id", putCategory);
 router.put("/sale/:id", completeSale);
 router.put("/user/update/:id", verifyJWT, updateProfile);
+router.put("/payment", putMember)
 
 //! DELETE
 router.delete("/product/:id", deleteProduct);
