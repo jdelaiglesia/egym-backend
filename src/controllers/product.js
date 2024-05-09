@@ -104,7 +104,7 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { name, price, stock } = req.body;
+    const { name, price, stock, description } = req.body;
     const productId = req.params.id;
 
     const product = await Product.findById(productId);
@@ -115,6 +115,7 @@ const updateProduct = async (req, res) => {
     product.name = name;
     product.price = price;
     product.stock = stock;
+    product.description = description
 
     await product.save();
 
