@@ -14,7 +14,6 @@ let idPreference = "";
 const createPreferenceMercadoPago = (req, res) => {
   const data = req.body;
  
-
   let items = data.products.map((product) => ({
     id: product._id,
     category_id: product.category,
@@ -34,7 +33,7 @@ const createPreferenceMercadoPago = (req, res) => {
       installments: 12,
     },
     notification_url:
-      "https://271b-201-231-154-210.ngrok-free.app/api/datapayment?source_news=webhooks",
+      "https://fea0-201-231-154-210.ngrok-free.app/api/datapayment?source_news=webhooks",
     statement_descriptor: "PF EGYM",
     external_reference: "Reference_1234",
     expires: false,
@@ -81,7 +80,8 @@ const getDataPayment = async (req, res) => {
   const payment = req.query;
   const paymentId = payment["data.id"];
 
-
+  console.log(payment)
+  console.log(paymentId)
 
   try {
     const response = await axios(
@@ -90,6 +90,7 @@ const getDataPayment = async (req, res) => {
         headers: { Authorization: `Bearer ${client.accessToken}` },
       }
     );
+
     if (response.data.status === "approved") {
       await axios.put(`http://localhost:3001/api/sale/${idPreference}`);
     }

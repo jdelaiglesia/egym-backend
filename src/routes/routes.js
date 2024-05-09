@@ -72,6 +72,9 @@ const { getStats } = require("../controllers/stats");
 // GET Verify Admin
 router.get("/dashboard/verify", verifyAdmin, getVerify);
 
+// GET Verify User
+router.get("/auth/token", verifyJWT, getVerify);
+
 // POST Login Dashboard
 router.post("/dashboard/auth", adminLogin);
 
@@ -117,7 +120,7 @@ router.put("/user/rank/:id", putRank);
 router.put("/category/:id", putCategory);
 router.put("/sale/:id", completeSale);
 router.put("/user/update/:id", verifyJWT, updateProfile);
-router.put("/payment", putMember)
+
 
 //! DELETE
 router.delete("/product/:id", deleteProduct);
