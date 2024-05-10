@@ -74,22 +74,6 @@ const createDiscountCoupon = async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 }
-
-
-        if (searchCoupon.length === 0) {
-          const coupon = new DiscountCoupon({ name, percentage, available });
-          await coupon.save();
-          res.status(201).json({ message: "coupon created successfully" });
-        } else {
-          res.status(201).json({ message: "coupon already exists" });
-        }
-      }
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
-
 const deleteDiscountCoupon = async (req, res) => {
   try {
     const id = req.params.id;
