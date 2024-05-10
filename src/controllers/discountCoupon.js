@@ -52,14 +52,14 @@ const createDiscountCoupon = async (req, res)=>{
             if(percentage>100 || isNaN(percentage) || percentage===true || percentage===false){
                 res.status(500).json({message: "Percentage must be a number and cannot be greater than 100"})
             }else{
-                const searchCoupon = await DiscountCoupon.find({name:name})
+                const searchCoupon = await DiscountCoupon.findOne({name:name})
     
-                if(searchCoupon.length===0){
+                if(!searchCoupon){
                     const coupon = new DiscountCoupon({name, percentage, available})
                     await coupon.save()
                     res.status(201).json({message: "coupon created successfully"})
                 }else{
-                    res.status(201).json({message: "coupon already exists"})
+                    res.status(401).json({message: "coupon already exists"})
                 } 
             }
         } 
