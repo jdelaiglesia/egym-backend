@@ -13,7 +13,7 @@ let idPreference = "";
 
 const createPreferenceMercadoPago = (req, res) => {
   const data = req.body;
- 
+
   let items = data.products.map((product) => ({
     id: product._id,
     category_id: product.category,
@@ -23,7 +23,6 @@ const createPreferenceMercadoPago = (req, res) => {
     quantity: Number(product.quantity),
     unit_price: Number(product.price),
   }));
-  
 
   const body = {
     items: items,
@@ -40,13 +39,11 @@ const createPreferenceMercadoPago = (req, res) => {
     expiration_date_from: "",
     expiration_date_to: "",
   };
- 
 
   const preference = new Preference(client);
   preference
     .create({ body })
     .then((response) => {
-     
       idPreference = response.id;
 
       let objProductsSale = data.products.map((product) => ({
@@ -66,13 +63,9 @@ const createPreferenceMercadoPago = (req, res) => {
       res.status(200).json(response.id);
     })
     .catch((error) => {
-      res
-        .status(500)
-        .json({
-          message:
-            "ocurrio un error al crear la preferencia en el servidor" +
-            error.message,
-        });
+      res.status(500).json({
+        message: error.message,
+      });
     });
 };
 
@@ -80,8 +73,8 @@ const getDataPayment = async (req, res) => {
   const payment = req.query;
   const paymentId = payment["data.id"];
 
-  console.log(payment)
-  console.log(paymentId)
+  console.log(payment);
+  console.log(paymentId);
 
   try {
     const response = await axios(
@@ -94,10 +87,9 @@ const getDataPayment = async (req, res) => {
     if (response.data.status === "approved") {
       await axios.put(`http://localhost:3001/api/sale/${idPreference}`);
     }
-  
+
     res.status(200).send("OK");
   } catch (error) {
- 
     res.status(500).send("ERROR");
   }
 };
