@@ -80,22 +80,22 @@ router.get("/auth/token", verifyJWT, getVerify);
 // POST Login Dashboard
 router.post("/dashboard/auth", adminLogin);
 
-// //* Routes Admin
-// router.get("/users", verifyAdmin, getUsers);
-// router.post("/product", verifyAdmin, createProduct);
-// router.post("/coupon", verifyAdmin, createDiscountCoupon);
-// router.post("/category", verifyAdmin, postCategory);
-// router.put("/product/:id", verifyAdmin, updateProduct);
-// router.put("/coupon", verifyAdmin, updateDiscountCoupon);
-// router.put("/user/member/:id", verifyAdmin, putMember);
-// router.put("/user/rank/:id", verifyAdmin, putRank);
-// router.put("/category/:id", verifyAdmin, putCategory);
-// router.delete("/product/:id", verifyAdmin, deleteProduct);
-// router.delete("/user/:id", verifyAdmin, deleteUser);
-// router.delete("/category/:id", verifyAdmin, deleteCategory);
-// router.delete("/comment/:id", verifyAdmin, deleteComment);
-// router.delete("/coupon/:id", verifyAdmin, deleteDiscountCoupon);
-// router.delete("/sale/:id", verifyAdmin, deleteSale);
+//* Routes Admin
+router.get("/users", verifyAdmin, getUsers);
+router.post("/product", verifyAdmin, createProduct);
+router.post("/coupon", verifyAdmin, createDiscountCoupon);
+router.post("/category", verifyAdmin, postCategory);
+router.put("/product/:id", verifyAdmin, updateProduct);
+router.put("/coupon", verifyAdmin, updateDiscountCoupon);
+router.put("/user/member/:id", verifyAdmin, putMember);
+router.put("/user/rank/:id", verifyAdmin, putRank);
+router.put("/category/:id", verifyAdmin, putCategory);
+router.delete("/product/:id", verifyAdmin, deleteProduct);
+router.delete("/user/:id", verifyAdmin, deleteUser);
+router.delete("/category/:id", verifyAdmin, deleteCategory);
+router.delete("/comment/:id", verifyAdmin, deleteComment);
+router.delete("/coupon/:id", verifyAdmin, deleteDiscountCoupon);
+router.delete("/sale/:id", verifyAdmin, deleteSale);
 
 //! GET
 router.get("/helloworld", hellowWorld);

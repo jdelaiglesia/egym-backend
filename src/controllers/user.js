@@ -69,12 +69,12 @@ const postUser = async (req, res) => {
     });
     if (user && !user.deleted) {
       return res
-        .status(401)
+        .status(200)
         .json({ message: "User already exists", user: user });
     }
 
     const salt = await bcrypt.genSalt(10);
-    let hashedPassword = "google123"; //password for google login
+    let hashedPassword = "google123";
     hashedPassword = await bcrypt.hash(hashedPassword, salt);
     if (req.body.password !== undefined) {
       hashedPassword = await bcrypt.hash(req.body.password, salt);

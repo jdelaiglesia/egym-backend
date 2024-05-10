@@ -65,9 +65,9 @@ const createPreferenceMercadoPago = async (req, res) => {
       expiration_date_from: "",
       expiration_date_to: "",
       back_urls: {
-        success: "https://www.localhost:3001/api",
-        pending: "https://www.localhost:3001/api",
-        failure: "https://www.localhost:3001/api",
+        success: "https://frontend-pf-three.vercel.app/payment?status=approved",
+        pending: "https://frontend-pf-three.vercel.app/payment?status=pending",
+        failure: "https://frontend-pf-three.vercel.app/payment?status=failure",
       },
       auto_return: "approved",
     };
