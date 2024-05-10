@@ -41,7 +41,7 @@ const getDiscountCoupon = async (req, res) => {
       deleted: { $ne: true },
     });
     if (!searchCoupon) {
-      res.status(200).json({ message: "coupon not exist " });
+      res.status(200).json({ message: "El cupón no existe" });
     } else {
       res.status(200).json(searchCoupon);
     }
@@ -74,6 +74,7 @@ const createDiscountCoupon = async (req, res) => {
         res.status(400).json({ message: err.message });
     }
 }
+
 const deleteDiscountCoupon = async (req, res) => {
   try {
     const id = req.params.id;
