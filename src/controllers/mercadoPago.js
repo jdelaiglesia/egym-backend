@@ -93,7 +93,10 @@ const createPreferenceMercadoPago = async (req, res) => {
         };
 
         axios
-          .post("http://localhost:3001/api/sale", createSaleObj)
+          .post(
+            "https://pf-backend-production-883c.up.railway.app:3001/api/sale",
+            createSaleObj
+          )
           .catch((error) => console.log(error));
         res.status(200).json(response.id);
       })

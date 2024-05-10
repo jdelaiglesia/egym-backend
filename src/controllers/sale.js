@@ -99,8 +99,6 @@ const completeSale = async (req, res) => {
 
       const email = userData?.email;
 
-   
-
       sale.status = "completed";
 
       const products = sale.products;
@@ -113,10 +111,12 @@ const completeSale = async (req, res) => {
         product.stock -= products[i].quantity;
         await product.save();
       }
-      
-      await axios.post("http://localhost:3001/api/orderemail", {email: email} ); 
-      await sale.save();
 
+      await axios.post(
+        "https://pf-backend-production-883c.up.railway.app:3001/api/orderemail",
+        { email: email }
+      );
+      await sale.save();
 
       res.status(200).json({ message: "Sale completed successfully" });
     } else {
