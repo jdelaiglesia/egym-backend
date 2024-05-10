@@ -59,7 +59,10 @@ const createPreferenceMercadoPago = (req, res) => {
         user: user,
       };
 
-      axios.post("http://localhost:3001/api/sale", createSaleObj);
+      axios.post(
+        "https://pf-backend-production-883c.up.railway.app:3001/api/sale",
+        createSaleObj
+      );
       res.status(200).json(response.id);
     })
     .catch((error) => {
@@ -85,7 +88,9 @@ const getDataPayment = async (req, res) => {
     );
 
     if (response.data.status === "approved") {
-      await axios.put(`http://localhost:3001/api/sale/${idPreference}`);
+      await axios.put(
+        `https://pf-backend-production-883c.up.railway.app:3001/api/sale/${idPreference}`
+      );
     }
 
     res.status(200).send("OK");
