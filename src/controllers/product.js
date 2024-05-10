@@ -50,7 +50,11 @@ const getProduct = async (req, res) => {
       deleted: { $ne: true },
     }).populate('category');
 
-    const comments = await Comments.find({ product_id: product._id });
+    const comments = await Comments.find({ product_id: product._id }).populate({
+      path: 'user',
+      model: 'User',
+      select: '_id name last_name url_image'
+  })
 
     let sum = 0
     for(let i =0; i < comments.length; i++){
@@ -100,7 +104,7 @@ const createProduct = async (req, res) => {
 
 const updateProduct = async (req, res) => {
   try {
-    const { name, price, stock } = req.body;
+    const { name, price, stock, description } = req.body;
     const productId = req.params.id;
 
     const product = await Product.findById(productId);
@@ -111,6 +115,7 @@ const updateProduct = async (req, res) => {
     product.name = name;
     product.price = price;
     product.stock = stock;
+    product.description = description
 
     await product.save();
 

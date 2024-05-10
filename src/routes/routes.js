@@ -1,6 +1,10 @@
 const { Router } = require("express");
 const { verifyJWT } = require("../middlewares/verifyJwt");
+const { verifyAdmin } = require("../middlewares/verifyAdmin");
 const { getVerify } = require("../controllers/verify");
+
+const { sendRegisterEmail, sendOrderEmail } = require("../controllers/mailer");
+
 
 const router = Router();
 
@@ -11,9 +15,8 @@ const {
   getDiscountCoupon,
   updateDiscountCoupon,
   deleteDiscountCoupon,
-  getAllCoupons
+  getAllCoupons,
 } = require("../controllers/discountCoupon");
-
 
 const {
   getProduct,
@@ -35,6 +38,8 @@ const {
   userLogin,
   putMember,
   putRank,
+  updateProfile,
+  adminLogin,
 } = require("../controllers/user");
 
 const {
@@ -48,12 +53,12 @@ const {
 const {
   getCommentsProduct,
   postComment,
-  deleteComment
-} = require('../controllers/comment');
+  deleteComment,
+} = require("../controllers/comment");
 
 const {
   createPreferenceMercadoPago,
-  getDataPayment
+  getDataPayment,
 } = require("../controllers/mercadoPago");
 
 const {
@@ -64,8 +69,33 @@ const {
   deleteSale,
 } = require("../controllers/sale");
 
-// GET Verify
+const { getStats } = require("../controllers/stats");
+
+// GET Verify Admin
+router.get("/dashboard/verify", verifyAdmin, getVerify);
+
+// GET Verify User
 router.get("/auth/token", verifyJWT, getVerify);
+
+// POST Login Dashboard
+router.post("/dashboard/auth", adminLogin);
+
+// //* Routes Admin
+// router.get("/users", verifyAdmin, getUsers);
+// router.post("/product", verifyAdmin, createProduct);
+// router.post("/coupon", verifyAdmin, createDiscountCoupon);
+// router.post("/category", verifyAdmin, postCategory);
+// router.put("/product/:id", verifyAdmin, updateProduct);
+// router.put("/coupon", verifyAdmin, updateDiscountCoupon);
+// router.put("/user/member/:id", verifyAdmin, putMember);
+// router.put("/user/rank/:id", verifyAdmin, putRank);
+// router.put("/category/:id", verifyAdmin, putCategory);
+// router.delete("/product/:id", verifyAdmin, deleteProduct);
+// router.delete("/user/:id", verifyAdmin, deleteUser);
+// router.delete("/category/:id", verifyAdmin, deleteCategory);
+// router.delete("/comment/:id", verifyAdmin, deleteComment);
+// router.delete("/coupon/:id", verifyAdmin, deleteDiscountCoupon);
+// router.delete("/sale/:id", verifyAdmin, deleteSale);
 
 //! GET
 router.get("/helloworld", hellowWorld);
@@ -83,8 +113,7 @@ router.get("/category/:name", getCategory);
 router.get("/comments/:id", getCommentsProduct);
 router.get("/sales", getAllSales);
 router.get("/sale/:id", getSale);
-
-
+router.get("/stats", getStats);
 
 //! POST
 router.post("/product", createProduct);
@@ -93,10 +122,11 @@ router.post("/user", postUser);
 router.post("/user/login", userLogin);
 router.post("/category", postCategory);
 router.post("/comment", postComment);
+router.post("/registeremail", sendRegisterEmail);
+router.post("/orderemail", sendOrderEmail);
 router.post("/payment", createPreferenceMercadoPago);
-router.post("/datapayment", getDataPayment)
+router.post("/datapayment", getDataPayment);
 router.post("/sale", createSale);
-
 
 //! PUT
 router.put("/product/:id", updateProduct);
@@ -106,6 +136,7 @@ router.put("/user/member/:id", putMember);
 router.put("/user/rank/:id", putRank);
 router.put("/category/:id", putCategory);
 router.put("/sale/:id", completeSale);
+router.put("/user/update/:id", verifyJWT, updateProfile);
 
 //! DELETE
 router.delete("/product/:id", deleteProduct);
