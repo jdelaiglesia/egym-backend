@@ -29,7 +29,7 @@ const postCategory = async (req, res) => {
             name,
             deleted: { $ne: true }
         })
-        if(category && !category.deleted){return res.status(404).json({message: "Category already exists"})}
+        if(category && !category.deleted){return res.status(401).json({message: "Category already exists"})}
         else{
             const category = new Category({name: name})
             await category.save()

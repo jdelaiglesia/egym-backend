@@ -69,7 +69,7 @@ const postUser = async (req, res) => {
     });
     if (user && !user.deleted) {
       return res
-        .status(200)
+        .status(401)
         .json({ message: "User already exists", user: user });
     }
 
@@ -81,7 +81,6 @@ const postUser = async (req, res) => {
     } else {
       hashedPassword = await bcrypt.hash(hashedPassword, salt);
     }
-    console.log(hashedPassword);
 
     user = new User({
       name: req.body.name,
