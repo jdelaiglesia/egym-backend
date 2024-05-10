@@ -29,9 +29,10 @@ const sendMembershipEmail = async (req, res) => {
 };
 
 const sendOrderEmail = async (req, res) => {
-  const { body } = req;
-  try {
-    await service_UserOrderEmail(body)
+  const { email, name } = req.body;
+  console.log("email",email);
+    try {
+    await service_UserOrderEmail(email)
     res.status(200).json({message:"Correo de compra enviado exitosamente"})
   } catch (error) {
     res.status(500).json({error: error.message});
