@@ -40,6 +40,7 @@ async function service_RegisterEmail(user_email) {
 // }
 
 async function service_UserOrderEmail(user_email){
+    
     const info = await transport.sendMail({
         from: "Egym <egym420@gmail.com>", 
         to: user_email, 
@@ -53,25 +54,7 @@ async function service_UserOrderEmail(user_email){
 })
 }
 
-async function service_MembershipEmail(user_email) {
-    
-    const info = await transport.sendMail({
-        from: "Egym <egym420@gmail.com>",
-        to: user_email,
-        subject: "Miembro E-Gym ✔", 
-        html: ` <h1>¡Bienvenido a E-GYM!</h1>
-        <p>¡Nos complace confirmar que tu registro ha sido exitoso y ahora eres parte de nuestra comunidad!</p>
-        <p>Como miembro, tienes acceso completo a todas nuestras instalaciones y servicios. Estamos aquí para apoyarte en cada paso de tu viaje hacia una vida más saludable y activa.</p>
-        <p>Si tienes alguna pregunta o necesitas asistencia, nuestro equipo está listo para ayudarte. No dudes en contactarnos en cualquier momento.</p>
-        <p>Para comenzar, te invitamos a explorar nuestro sitio web y descubrir todo lo que E-GYM tiene para ofrecerte.</p>
-        <p>¡Gracias por elegirnos y bienvenido a bordo!</p>
-        <p>Saludos cordiales,</p>
-        <hr/>
-        <p>El equipo de E-GYM</p>
-    </div>`, 
-    });
-}
 
 
 
-module.exports = { service_RegisterEmail, service_UserOrderEmail, service_MembershipEmail}
+module.exports = { service_RegisterEmail, service_UserOrderEmail}
