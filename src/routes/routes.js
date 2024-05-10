@@ -2,11 +2,9 @@ const { Router } = require("express");
 const { verifyJWT } = require("../middlewares/verifyJwt");
 const { verifyAdmin } = require("../middlewares/verifyAdmin");
 const { getVerify } = require("../controllers/verify");
-const {
-  sendRegisterEmail,
-  sendMembershipEmail,
-  sendOrderEmail,
-} = require("../controllers/mailer");
+
+const { sendRegisterEmail, sendOrderEmail } = require("../controllers/mailer");
+
 
 const router = Router();
 
@@ -125,7 +123,6 @@ router.post("/user/login", userLogin);
 router.post("/category", postCategory);
 router.post("/comment", postComment);
 router.post("/registeremail", sendRegisterEmail);
-router.post("/membershipemail", sendMembershipEmail);
 router.post("/orderemail", sendOrderEmail);
 router.post("/payment", createPreferenceMercadoPago);
 router.post("/datapayment", getDataPayment);
